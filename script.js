@@ -78,6 +78,11 @@ function resetCalculator() {
     updateDisplay();
 }
 
+function deleteLastDigit() {
+    calculator.displayValue = calculator.displayValue.slice(0, -1) || '0';
+    updateDisplay();
+}
+
 function negateValue() {
     calculator.displayValue = (parseFloat(calculator.displayValue) * -1).toString();
     updateDisplay();
@@ -110,6 +115,9 @@ keys.addEventListener('click', (event) => {
             break;
         case 'negate':
             negateValue();
+            break;
+        case 'delete':
+            deleteLastDigit();
             break;
         default:
             inputDigit(value);

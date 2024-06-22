@@ -19,8 +19,9 @@ body {
 }
 
 .calculator-screen {
-    width: 100%;
+    width: calc(100% - 40px);
     height: 80px;
+    margin: 20px;
     border: none;
     background: #252525;
     color: #fff;
@@ -32,6 +33,14 @@ body {
 button {
     height: 60px;
     font-size: 1.5em;
+    border: none;
+    background: #e0e0e0;
+    border-right: 1px solid #bdbdbd;
+    border-bottom: 1px solid #bdbdbd;
+}
+
+button:active {
+    background: #b0b0b0;
 }
 
 .operator {
@@ -55,4 +64,35 @@ button {
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
     background: #bdbdbd;
+}
+
+.special-keys {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.special-keys button {
+    flex: 1;
+    margin: 0 10px;
+    height: 60px;
+    font-size: 1.5em;
+    border: none;
+    background: #e0e0e0;
+    border-right: 1px solid #bdbdbd;
+    border-bottom: 1px solid #bdbdbd;
+}
+
+.special-keys button:active {
+    background: #b0b0b0;
+}
+
+.negate {
+    background: #f57c00;
+    color: #fff;
+}
+
+.delete {
+    background: #757575;
+    color: #fff;
 }
