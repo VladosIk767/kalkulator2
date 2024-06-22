@@ -123,3 +123,25 @@ keys.addEventListener('click', (event) => {
             inputDigit(value);
     }
 });
+
+const specialKeys = document.querySelector('.special-keys');
+specialKeys.addEventListener('click', (event) => {
+    const { target } = event;
+    const { value } = target;
+
+    if (!target.matches('button')) {
+        return;
+    }
+
+    switch (value) {
+        case 'negate':
+            negateValue();
+            break;
+        case 'delete':
+            deleteLastDigit();
+            break;
+        case 'all-clear':
+            resetCalculator();
+            break;
+    }
+});
