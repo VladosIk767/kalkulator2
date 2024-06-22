@@ -74,8 +74,12 @@ function handleOperator(nextOperator) {
     } else if (operator) {
         const result = calculate(firstOperand, inputValue, operator);
 
-        calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
-        calculator.firstOperand = result;
+        if (result === 'Nie można dzielić przez zero') {
+            calculator.displayValue = result;
+        } else {
+            calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
+            calculator.firstOperand = result;
+        }
     }
 
     calculator.waitingForSecondOperand = true;
@@ -92,30 +96,12 @@ function calculate(firstOperand, secondOperand, operator) {
             return firstOperand * secondOperand;
         case '/':
             if (secondOperand === 0) {
-                return 'Cannot divide by zero';
+                return 'Nie można dzielić przez zero';
             }
             return firstOperand / secondOperand;
         default:
             return secondOperand;
     }
-}
-
-function resetCalculator() {
-    calculator.displayValue = '0';
-    calculator.firstOperand = null;
-    calculator.waitingForSecondOperand = false;
-    calculator.operator = null;
-    updateDisplay();
-}
-
-function deleteLastDigit() {
-    calculator.displayValue = calculator.displayValue.slice(0, -1) || '0';
-    updateDisplay();
-}
-
-function negateValue() {
-    calculator.displayValue = (parseFloat(calculator.displayValue) * -1).toString();
-    updateDisplay();
 }
 
 const specialKeys = document.querySelector('.special-keys');
@@ -138,4 +124,21 @@ specialKeys.addEventListener('click', (event) => {
             resetCalculator();
             break;
     }
+
+    updateDisplay();
 });
+
+function resetCalculator() {
+    calculator.displayValue = '0';
+    calculator.firstOperand = null;
+    calculator.waitingForSecondOperand = false;
+    calculator.operator = null;
+}
+
+function deleteLastDigit() {
+    calculator.displayValue = calculator.displayValue.slice(0, -1) || '0';
+}
+
+function negateValue() {
+    calculator.displayValue = (parseFloat(calculator.displayValue) * -1).toString();
+}
