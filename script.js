@@ -3,7 +3,6 @@ const calculator = {
     firstOperand: null,
     waitingForSecondOperand: false,
     operator: null,
-    historyText: '',
 };
 
 function updateDisplay() {
@@ -11,13 +10,7 @@ function updateDisplay() {
     display.value = calculator.displayValue;
 }
 
-function updateHistory() {
-    const history = document.querySelector('.operation-history-text');
-    history.value = calculator.historyText;
-}
-
 updateDisplay();
-updateHistory();
 
 const keys = document.querySelector('.calculator-keys');
 keys.addEventListener('click', (event) => {
@@ -48,7 +41,6 @@ keys.addEventListener('click', (event) => {
     }
 
     updateDisplay();
-    updateHistory();
 });
 
 function inputDigit(digit) {
@@ -69,7 +61,7 @@ function inputDecimal(dot) {
 }
 
 function handleOperator(nextOperator) {
-    const { firstOperand, displayValue, operator, historyText } = calculator;
+    const { firstOperand, displayValue, operator } = calculator;
     const inputValue = parseFloat(displayValue);
 
     if (operator && calculator.waitingForSecondOperand)  {
@@ -81,7 +73,6 @@ function handleOperator(nextOperator) {
         calculator.firstOperand = inputValue;
     } else if (operator) {
         const result = calculate(firstOperand, inputValue, operator);
-        calculator.historyText = `${historyText} ${displayValue} ${nextOperator}`;
 
         if (result === 'Nie można dzielić przez zero') {
             calculator.displayValue = result;
@@ -92,8 +83,6 @@ function handleOperator(nextOperator) {
             calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
             calculator.firstOperand = result;
         }
-    } else {
-        calculator.historyText = `${historyText} ${displayValue} ${nextOperator}`;
     }
 
     calculator.waitingForSecondOperand = true;
@@ -140,7 +129,6 @@ specialKeys.addEventListener('click', (event) => {
     }
 
     updateDisplay();
-    updateHistory();
 });
 
 function resetCalculator() {
@@ -148,7 +136,6 @@ function resetCalculator() {
     calculator.firstOperand = null;
     calculator.waitingForSecondOperand = false;
     calculator.operator = null;
-    calculator.historyText = '';
 }
 
 function deleteLastDigit() {
