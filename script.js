@@ -76,6 +76,9 @@ function handleOperator(nextOperator) {
 
         if (result === 'Nie można dzielić przez zero') {
             calculator.displayValue = result;
+            calculator.firstOperand = null;
+            calculator.operator = null;
+            calculator.waitingForSecondOperand = false;
         } else {
             calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
             calculator.firstOperand = result;
