@@ -2,61 +2,73 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 62.5%;
+}
+
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: #f7f7f7;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .calculator {
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    margin: 10% auto;
+    max-width: 40rem;
     overflow: hidden;
-    width: 420px;
+    width: 100%;
 }
 
 .calculator-screen {
-    width: calc(100% - 40px);
-    height: 80px;
-    margin: 20px;
+    background-color: #252525;
     border: none;
-    background: #252525;
-    color: #fff;
+    color: white;
+    font-size: 2.5rem;
+    height: 8rem;
+    margin-bottom: 1rem;
     text-align: right;
-    padding: 0 10px;
-    font-size: 2.5em;
+    padding: 1rem 1.5rem;
+    width: 100%;
 }
 
 button {
-    height: 60px;
-    font-size: 1.5em;
-    border: none;
-    background: #e0e0e0;
-    border-right: 1px solid #bdbdbd;
-    border-bottom: 1px solid #bdbdbd;
+    height: 8rem;
+    font-size: 2.5rem;
 }
 
-button:active {
-    background: #b0b0b0;
+button.operator {
+    background-color: #f57c00;
+    color: white;
 }
 
-.operator {
-    background: #f9a825;
-    color: #fff;
+button.equal-sign {
+    background-color: #5cb85c;
+    border-bottom-right-radius: 1rem;
+    color: white;
+    height: calc(16rem + 2px);
+    grid-column: -1;
 }
 
-.all-clear {
-    background: #d32f2f;
-    color: #fff;
+button.decimal {
+    border-bottom-left-radius: 1rem;
 }
 
-.equal-sign {
-    background: #4caf50;
-    color: #fff;
-    height: 100%;
+button.all-clear {
+    background-color: #ac3939;
+    color: white;
+    flex: 1;
+}
+
+button.delete {
+    background-color: #e6e600;
+    color: white;
+    flex: 1;
+}
+
+button.negate {
+    background-color: #4caf50;
+    color: white;
+    flex: 1;
 }
 
 .calculator-keys {
@@ -85,14 +97,4 @@ button:active {
 
 .special-keys button:active {
     background: #b0b0b0;
-}
-
-.negate {
-    background: #f57c00;
-    color: #fff;
-}
-
-.delete {
-    background: #757575;
-    color: #fff;
 }

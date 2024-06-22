@@ -10,6 +10,39 @@ function updateDisplay() {
     display.value = calculator.displayValue;
 }
 
+updateDisplay();
+
+const keys = document.querySelector('.calculator-keys');
+keys.addEventListener('click', (event) => {
+    const { target } = event;
+    const { value } = target;
+
+    if (!target.matches('button')) {
+        return;
+    }
+
+    switch (value) {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            handleOperator(value);
+            break;
+        case '=':
+            handleOperator(value);
+            break;
+        case '.':
+            inputDecimal(value);
+            break;
+        default:
+            if (Number.isInteger(parseFloat(value))) {
+                inputDigit(value);
+            }
+    }
+
+    updateDisplay();
+});
+
 function inputDigit(digit) {
     const { displayValue, waitingForSecondOperand } = calculator;
 
@@ -19,17 +52,12 @@ function inputDigit(digit) {
     } else {
         calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
     }
-
-    updateDisplay();
 }
 
 function inputDecimal(dot) {
-    if (calculator.waitingForSecondOperand === true) return;
-
     if (!calculator.displayValue.includes(dot)) {
         calculator.displayValue += dot;
     }
-    updateDisplay();
 }
 
 function handleOperator(nextOperator) {
@@ -52,22 +80,24 @@ function handleOperator(nextOperator) {
 
     calculator.waitingForSecondOperand = true;
     calculator.operator = nextOperator;
-
-    updateDisplay();
 }
 
 function calculate(firstOperand, secondOperand, operator) {
-    if (operator === '+') {
-        return firstOperand + secondOperand;
-    } else if (operator === '-') {
-        return firstOperand - secondOperand;
-    } else if (operator === '*') {
-        return firstOperand * secondOperand;
-    } else if (operator === '/') {
-        return secondOperand !== 0 ? firstOperand / secondOperand : 'Cannot divide by zero';
+    switch (operator) {
+        case '+':
+            return firstOperand + secondOperand;
+        case '-':
+            return firstOperand - secondOperand;
+        case '*':
+            return firstOperand * secondOperand;
+        case '/':
+            if (secondOperand === 0) {
+                return 'Cannot divide by zero';
+            }
+            return firstOperand / secondOperand;
+        default:
+            return secondOperand;
     }
-
-    return secondOperand;
 }
 
 function resetCalculator() {
@@ -87,42 +117,6 @@ function negateValue() {
     calculator.displayValue = (parseFloat(calculator.displayValue) * -1).toString();
     updateDisplay();
 }
-
-const keys = document.querySelector('.calculator-keys');
-keys.addEventListener('click', (event) => {
-    const { target } = event;
-    const { value } = target;
-
-    if (!target.matches('button')) {
-        return;
-    }
-
-    switch (value) {
-        case '+':
-        case '-':
-        case '*':
-        case '/':
-            handleOperator(value);
-            break;
-        case '.':
-            inputDecimal(value);
-            break;
-        case 'all-clear':
-            resetCalculator();
-            break;
-        case '=':
-            handleOperator(value);
-            break;
-        case 'negate':
-            negateValue();
-            break;
-        case 'delete':
-            deleteLastDigit();
-            break;
-        default:
-            inputDigit(value);
-    }
-});
 
 const specialKeys = document.querySelector('.special-keys');
 specialKeys.addEventListener('click', (event) => {
