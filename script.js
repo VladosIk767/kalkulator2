@@ -37,15 +37,6 @@ keys.addEventListener('click', (event) => {
         case '.':
             inputDecimal(value);
             break;
-        case 'negate':
-            negateValue();
-            break;
-        case 'delete':
-            deleteLastDigit();
-            break;
-        case 'all-clear':
-            resetCalculator();
-            break;
         default:
             if (Number.isInteger(parseFloat(value))) {
                 inputDigit(value);
@@ -108,9 +99,7 @@ function handleOperator(nextOperator) {
     calculator.expression += nextOperator;
 
     if (nextOperator === '=') {
-        const result = calculate(calculator.firstOperand, inputValue, calculator.operator);
-        calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
-        calculator.expression = `${calculator.expression}=${calculator.displayValue}`;
+        calculator.expression = calculator.displayValue;
         calculator.firstOperand = null;
         calculator.operator = null;
         calculator.waitingForSecondOperand = false;
@@ -134,6 +123,30 @@ function calculate(firstOperand, secondOperand, operator) {
             return secondOperand;
     }
 }
+
+const specialKeys = document.querySelector('.calculator-keys');
+specialKeys.addEventListener('click', (event) => {
+    const { target } = event;
+    const { value } = target;
+
+    if (!target.matches('button')) {
+        return;
+    }
+
+    switch (value) {
+        case 'negate':
+            negateValue();
+            break;
+        case 'delete':
+            deleteLastDigit();
+            break;
+        case 'all-clear':
+            resetCalculator();
+            break;
+    }
+
+    updateDisplay();
+});
 
 function resetCalculator() {
     calculator.displayValue = '0';
