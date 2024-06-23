@@ -68,7 +68,7 @@ function handleOperator(nextOperator) {
     const { firstOperand, displayValue, operator } = calculator;
     const inputValue = parseFloat(displayValue);
 
-    if (operator && calculator.waitingForSecondOperand)  {
+    if (operator && calculator.waitingForSecondOperand) {
         calculator.operator = nextOperator;
         calculator.expression = calculator.expression.slice(0, -1) + nextOperator;
         return;
