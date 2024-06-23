@@ -148,11 +148,18 @@ function resetCalculator() {
 }
 
 function deleteLastDigit() {
-    calculator.displayValue = calculator.displayValue.slice(0, -1) || '0';
-    calculator.expression = calculator.expression.slice(0, -1) || '0';
+    if (calculator.displayValue.length > 1) {
+        calculator.displayValue = calculator.displayValue.slice(0, -1);
+        calculator.expression = calculator.expression.slice(0, -1);
+    } else {
+        calculator.displayValue = '0';
+        calculator.expression = '';
+    }
 }
 
 function negateValue() {
-    calculator.displayValue = (parseFloat(calculator.displayValue) * -1).toString();
-    calculator.expression = calculator.expression.replace(/-?\d+$/, calculator.displayValue);
+    if (calculator.displayValue !== '0') {
+        calculator.displayValue = (parseFloat(calculator.displayValue) * -1).toString();
+        calculator.expression = calculator.expression.replace(/-?\d+$/, calculator.displayValue);
+    }
 }
