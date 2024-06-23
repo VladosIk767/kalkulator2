@@ -22,14 +22,16 @@ keys.addEventListener('click', (event) => {
         return;
     }
 
+    if (value === '=') {
+        handleOperator(value);
+        return;
+    }
+
     switch (value) {
         case '+':
         case '-':
         case '*':
         case '/':
-            handleOperator(value);
-            break;
-        case '=':
             handleOperator(value);
             break;
         case '.':
@@ -95,6 +97,13 @@ function handleOperator(nextOperator) {
     calculator.waitingForSecondOperand = true;
     calculator.operator = nextOperator;
     calculator.expression += nextOperator;
+
+    if (nextOperator === '=') {
+        calculator.expression = calculator.displayValue;
+        calculator.firstOperand = null;
+        calculator.operator = null;
+        calculator.waitingForSecondOperand = false;
+    }
 }
 
 function calculate(firstOperand, secondOperand, operator) {
