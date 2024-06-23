@@ -3,11 +3,12 @@ const calculator = {
     firstOperand: null,
     waitingForSecondOperand: false,
     operator: null,
+    expression: '',
 };
 
 function updateDisplay() {
     const display = document.querySelector('.calculator-screen');
-    display.value = calculator.displayValue;
+    display.value = calculator.expression || calculator.displayValue;
 }
 
 updateDisplay();
@@ -46,17 +47,20 @@ keys.addEventListener('click', (event) => {
 function inputDigit(digit) {
     const { displayValue, waitingForSecondOperand } = calculator;
 
-    if (waitingForSecondOperand === true) {
+    if (waitingForSecondOperand) {
         calculator.displayValue = digit;
         calculator.waitingForSecondOperand = false;
     } else {
         calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
     }
+
+    calculator.expression += digit;
 }
 
 function inputDecimal(dot) {
     if (!calculator.displayValue.includes(dot)) {
         calculator.displayValue += dot;
+        calculator.expression += dot;
     }
 }
 
@@ -66,6 +70,7 @@ function handleOperator(nextOperator) {
 
     if (operator && calculator.waitingForSecondOperand)  {
         calculator.operator = nextOperator;
+        calculator.expression = calculator.expression.slice(0, -1) + nextOperator;
         return;
     }
 
@@ -76,9 +81,11 @@ function handleOperator(nextOperator) {
 
         if (result === 'Nie można dzielić przez zero') {
             calculator.displayValue = result;
+            calculator.expression = result;
             calculator.firstOperand = null;
             calculator.operator = null;
             calculator.waitingForSecondOperand = false;
+            return;
         } else {
             calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
             calculator.firstOperand = result;
@@ -87,6 +94,7 @@ function handleOperator(nextOperator) {
 
     calculator.waitingForSecondOperand = true;
     calculator.operator = nextOperator;
+    calculator.expression += nextOperator;
 }
 
 function calculate(firstOperand, secondOperand, operator) {
@@ -136,12 +144,15 @@ function resetCalculator() {
     calculator.firstOperand = null;
     calculator.waitingForSecondOperand = false;
     calculator.operator = null;
+    calculator.expression = '';
 }
 
 function deleteLastDigit() {
     calculator.displayValue = calculator.displayValue.slice(0, -1) || '0';
+    calculator.expression = calculator.expression.slice(0, -1) || '0';
 }
 
 function negateValue() {
     calculator.displayValue = (parseFloat(calculator.displayValue) * -1).toString();
+    calculator.expression = calculator.expression.replace(/-?\d+$/, calculator.displayValue);
 }
