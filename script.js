@@ -124,7 +124,7 @@ function calculate(firstOperand, secondOperand, operator) {
     }
 }
 
-const specialKeys = document.querySelector('.special-keys');
+const specialKeys = document.querySelector('.calculator-keys');
 specialKeys.addEventListener('click', (event) => {
     const { target } = event;
     const { value } = target;
